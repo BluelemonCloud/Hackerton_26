@@ -1,76 +1,481 @@
 <!doctype html>
 <html lang="ko">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>KING 해커톤 · 배포 확인</title>
-  <style>
-    * { box-sizing: border-box; }
-    body { margin: 0; min-height: 100vh; display: grid; place-items: center; padding: 24px; background: #eef1eb; color: #17241c; font-family: system-ui, "Malgun Gothic", sans-serif; }
-    main { width: min(100%, 720px); padding: clamp(24px, 5vw, 48px); border: 1px solid #00462a; border-radius: 8px; background: white; }
-    .label { margin: 0 0 24px; color: #00462a; font-size: 14px; font-weight: 700; }
-    h1 { margin: 0 0 16px; font-size: clamp(28px, 6vw, 42px); }
-    p { line-height: 1.7; }
-    #stage { display: grid; place-items: center; min-height: 180px; margin: 28px 0 20px; padding: 24px; background: #f3f5f1; border: 1px solid #d8ded7; text-align: center; }
-    #message { margin: 0; }
-    .buttons { display: flex; flex-wrap: wrap; gap: 12px; }
-    button { padding: 12px 20px; border: 1px solid #00462a; border-radius: 4px; background: #00462a; color: white; font: inherit; cursor: pointer; }
-    #restart { background: white; color: #00462a; }
-    button:disabled { opacity: .4; cursor: default; }
-    button:focus-visible { outline: 3px solid #69a58c; outline-offset: 4px; }
-    .guide { margin-top: 28px; padding: 24px; border: 1px solid #d8ded7; background: #f8faf6; }
-    .guide h2 { margin: 0 0 12px; font-size: 22px; }
-    .guide li { margin: 10px 0; line-height: 1.7; }
-    .sheet-link { display: inline-block; margin-top: 8px; padding: 12px 18px; background: #00462a; color: white; border-radius: 4px; text-decoration: none; }
-    .sheet-link:focus-visible { outline: 3px solid #69a58c; outline-offset: 4px; }
-    .note { margin-top: 28px; padding-top: 20px; border-top: 1px solid #d8ded7; color: #68746b; font-size: 14px; }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>민첩한 하루를 보내세요 - 엄마 몰래 아스테로이드</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; min-height: 100vh; display: grid; place-items: center; padding: 20px; background: #1a1a1a; color: #f0f0f0; font-family: system-ui, "Malgun Gothic", sans-serif; }
+  main { width: min(100%, 780px); padding: 20px; border: 2px solid #5a524a; border-radius: 12px; background: #2c2521; }
+  h1 { margin: 0 0 6px; font-size: 22px; color: #f5efe6; }
+  p { line-height: 1.4; margin: 4px 0; font-size: 13px; color: #d1c7bc; }
+  canvas { display: block; width: 100%; height: auto; margin: 15px 0; border: 3px solid #3d342f; border-radius: 8px; background: #e6dfd5; }
+  .buttons { display: flex; gap: 10px; margin-bottom: 12px; }
+  button { padding: 10px 18px; border: 1px solid #706050; border-radius: 4px; background: #524234; color: #fff; font: inherit; font-weight: bold; cursor: pointer; }
+  button:hover:not(:disabled) { background: #665343; }
+  button:disabled { opacity: .4; cursor: default; }
+  .guide { padding: 10px 14px; border: 1px solid #4a3e37; background: #241e1b; border-radius: 6px; font-size: 12px; color: #c4b5a5; line-height: 1.7; }
+  code { background: #3a322b; padding: 1px 5px; border-radius: 3px; }
+</style>
 </head>
 <body>
-  <main>
-    <p class="label">KING · 바이브코딩 해커톤</p>
-    <!-- 사전 수정 연습: 아래 제목을 원하는 문구로 바꿔 보세요. -->
-    <h1>해커톤 준비 완료</h1>
-    <p>이 화면이 GitHub Pages 공개 주소에서 보이면 배포에 성공한 것입니다.<br>시작 버튼을 눌러 기본 동작도 확인해 주세요.</p>
-    <section id="stage" aria-label="실행 확인 화면" aria-live="polite">
-      <p id="message">시작 버튼을 눌러 주세요.</p>
-    </section>
-    <div class="buttons">
-      <button id="start" type="button">시작</button>
-      <button id="restart" type="button" disabled>다시 시작</button>
-    </div>
-    <section class="guide" aria-labelledby="guide-title">
-      <h2 id="guide-title">참가자 정보 사전 입력</h2>
-      <p>정기 모임 전에 GitHub와 Skeam 계정을 만들고, 아래 스프레드시트에 본인 정보를 미리 기재해 주세요.</p>
-      <ol>
-        <li><strong>GitHub 계정:</strong> 계정을 생성하고 이메일 인증을 완료합니다. 공개 저장소를 만들고 이 파일을 GitHub Pages에 배포해 봅니다.</li>
-        <li><strong>Skeam 계정:</strong> 계정을 생성하고 행사에 사용할 기기에서 로그인을 확인합니다.</li>
-        <li><strong>스프레드시트:</strong> 빈 행 하나에 이름, Skeam 닉네임, 참여 여부, 사용할 AI·제작 도구를 입력합니다. 이미 본인 행이 있다면 해당 행을 수정합니다.</li>
-        <li><strong>행사 후 입력:</strong> 작품명과 Skeam 링크를 입력합니다. 아직 만들지 않은 작품 정보와 링크는 비워 두어도 됩니다.</li>
-      </ol>
-      <a class="sheet-link" href="https://docs.google.com/spreadsheets/d/1eLqrOtpMhR3VfCOIV-9_RNtlB1wUtHm_m6aK4ziDUH8/edit?usp=sharing" target="_blank" rel="noopener noreferrer">참가자 정보 입력 시트 열기 ↗</a>
-      <p style="font-size:14px;color:#68746b">다른 참가자의 행은 수정하지 마세요. 비밀번호·API 키는 기재하지 않습니다. 사전 준비·출석·제출 상태·실행 확인은 운영진이 관리합니다.</p>
-    </section>
-    <p class="note">이 파일은 배포 연습용 기본 틀입니다. 실제 게임 규칙과 조작은 당일 추가하세요.<br>사전 연습: 제목을 수정해 다시 올린 뒤 공개 페이지에도 반영되는지 확인합니다.</p>
-  </main>
-  <script>
-    // 외부 라이브러리 없이 이 파일 하나로 실행됩니다.
-    const message = document.getElementById('message');
-    const start = document.getElementById('start');
-    const restart = document.getElementById('restart');
-    start.addEventListener('click', () => {
-      message.textContent = '시작 버튼이 정상적으로 작동합니다. 다시 시작 버튼도 확인해 주세요.';
-      start.disabled = true;
-      restart.disabled = false;
-      restart.focus();
-    });
-    restart.addEventListener('click', () => {
-      message.textContent = '시작 버튼을 눌러 주세요.';
-      start.disabled = false;
-      restart.disabled = true;
-      start.focus();
-    });
-  </script>
+<main>
+  <h1>방 안의 밀행: 아스테로이드 클리어 작전</h1>
+  <p>발소리가 들리면 <strong>스페이스바로 침대에 숨으세요.</strong> 엄마가 창문에 있는데 TV 앞에 있으면 발각 게이지가 찹니다.</p>
+  <canvas id="c" width="740" height="440"></canvas>
+  <section class="guide">
+    <strong>조작</strong><br>
+    이동 <code>↑</code> <code>↓</code> <code>←</code> <code>→</code> · 회전 <code>A</code> <code>D</code> · 발사 <code>S</code> · 자기/깨기 <code>Space</code><br>
+    <strong>발각 위험</strong> 줄어들지 않고 누적돼요. 가득 차면 즉시 게임 오버예요.<br>
+    <strong>승리</strong> 모든 아스테로이드 파괴 · <strong>패배</strong> 발각 위험 100% · 운석에 3번 부딪혀 생명이 0이 되면 TV 화면에 게임 오버가 뜨고, 화면 속 <code>다시 시작</code>(클릭 또는 Enter)을 눌러야 아스테로이드만 처음부터 다시 시작돼요<br>
+    자는 동안에는 TV 속 게임이 일시정지됩니다. 음소거 <code>M</code>
+  </section>
+</main>
+
+<script>
+/* ============ 이미지 에셋 (없으면 도형으로 자동 대체) ============
+   ship / bullet / meteor : 오른쪽(→)을 향하게 그리기 권장
+   room 740x440, bed 220x135, bedHiding 220x135(이불 덮은 모습),
+   tv 380x330(화면 영역 포함 TV 전체), tvOff = 꺼진 화면 340x280,
+   momWarning = 복도 그림자 등, momHere = 창문에 나타난 엄마 */
+const ASSETS = {
+  room: 'assets/room.png',
+  bed: 'assets/bed.png',
+  bedHiding: 'assets/bed_hiding.png',
+  tv: 'assets/tv.png',
+  tvOff: 'assets/tv_off.png',
+  tvBg: 'assets/tv_bg.png',
+  ship: 'assets/ship.png',
+  meteor: 'assets/meteor.png',
+  bullet: 'assets/bullet.png',
+  heart: 'assets/heart.png',
+  momWarning: 'assets/mom_warning.png',
+  momHere: 'assets/mom_here.png'
+};
+const imgs = {};
+for (const k in ASSETS) {
+  const im = new Image();
+  im.onload = () => { im.ok = true; if (!S.running) draw(); };
+  im.src = ASSETS[k];
+  imgs[k] = im;
+}
+const getImg = k => (imgs[k] && imgs[k].ok) ? imgs[k] : null;
+
+/* ============ 사운드 (파일이 없으면 조용히 무시) ============
+   shoot = 발사 효과음(짧게), night = 밤 배경소리(루프용), mom = 엄마 말소리(창문에 나타날 때 1회)
+   M 키로 음소거 */
+const SOUNDS = { shoot: 'assets/shoot.mp3', night: 'assets/night.mp3', mom: 'assets/mom.mp3' };
+const VOL = { shoot: 0.5, night: 0.35, mom: 0.9 };
+let muted = false;
+const snd = {};
+for (const k in SOUNDS) { const a = new Audio(SOUNDS[k]); a.preload = 'auto'; a.volume = VOL[k]; snd[k] = a; }
+snd.night.loop = true;
+function play(k) {
+  if (muted) return;
+  const a = k === 'shoot' ? snd.shoot.cloneNode() : snd[k];
+  a.volume = VOL[k];
+  try { if (k !== 'shoot') a.currentTime = 0; } catch (e) {}
+  a.play().catch(() => {});
+}
+function stopSnd(k) { snd[k].pause(); try { snd[k].currentTime = 0; } catch (e) {} }
+
+/* ============ 설정 ============ */
+const CFG = {
+  turn: 0.07, thrust: 0.14,  // 내 우주선 가속 (기존 0.2의 70%)
+  meteorSpeed: 0.5,   // 운석 속도 배율 (기존의 50%)
+  friction: 0.98, bulletSpeed: 8, bulletLife: 0.9, shotCooldown: 0.15,
+  hideTime: 0.25,        // 완전히 숨는 데 걸리는 시간(초)
+  warnTime: 1.6,         // 발소리 → 엄마 등장까지(초)
+  momStay: [2.6, 3.6],   // 엄마가 창문에 머무는 시간
+  momAway: [4, 7],       // 엄마가 없는 시간
+  gaugeUp: 45,
+  invul: 2               // 피격 후 무적 시간
+};
+
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d');
+const monitor = { x: 360, y: 80, w: 340, h: 280 };
+const rand = (a, b) => a + Math.random() * (b - a);
+
+let S = { running: false };
+let keys = {};
+let rafId = 0, last = 0;
+
+/* 아스테로이드 게임만 처음부터 다시 (생명·발각 게이지·엄마 상태는 유지) */
+function resetStage() {
+  S.score = 0; S.invul = 0; S.shotCd = 0;
+  S.ship = { x: monitor.w / 2, y: monitor.h / 2, vx: 0, vy: 0, angle: -Math.PI / 2, r: 12 };
+  S.bullets = [];
+  S.meteors = [
+    { x: 50, y: 50, r: 26, dx: 1.2, dy: 0.8, rot: 0, vr: 0.02 },
+    { x: 290, y: 50, r: 26, dx: -1.0, dy: 1.1, rot: 1, vr: -0.02 },
+    { x: 60, y: 230, r: 26, dx: 0.8, dy: -1.2, rot: 2, vr: 0.015 }
+  ];
+}
+
+function restartStage() {
+  resetStage();
+  S.lives = 3;
+  S.stageOver = false;
+}
+
+function newGame() {
+  S = {
+    running: true, over: null, reason: '',
+    score: 0, lives: 3, gauge: 0, invul: 0, shotCd: 0,
+    wantHide: false, hide: 0, stageOver: false,
+    mom: { state: 'away', t: rand(3, 5), visits: 0 },
+    bullets: [], meteors: []
+  };
+  resetStage();
+}
+
+function startGame() {
+  cancelAnimationFrame(rafId);
+  keys = {};
+  newGame();
+  stopSnd('mom'); play('night');
+  last = performance.now();
+  rafId = requestAnimationFrame(loop);
+}
+
+function endGame(result, reason) {
+  S.running = false; S.over = result; S.reason = reason;
+  cancelAnimationFrame(rafId);
+  stopSnd('night'); stopSnd('mom');
+  draw();
+}
+
+/* ============ 입력 ============ */
+window.addEventListener('keydown', e => {
+  if (['Space', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.code)) e.preventDefault();
+  keys[e.code] = true;
+  if (e.code === 'Space' && !e.repeat && S.running) S.wantHide = !S.wantHide;
+  if (e.code === 'KeyM') {
+    muted = !muted;
+    if (muted) snd.night.pause(); else if (S.running) snd.night.play().catch(() => {});
+  }
+  if (e.code === 'Enter') { if (!S.running) startGame(); else if (tvOverShown()) restartStage(); }
+});
+window.addEventListener('keyup', e => { keys[e.code] = false; });
+window.addEventListener('blur', () => { keys = {}; });
+
+function fire() {
+  play('shoot');
+  const sh = S.ship, a = sh.angle;
+  S.bullets.push({
+    x: sh.x + Math.cos(a) * 14, y: sh.y + Math.sin(a) * 14,
+    dx: Math.cos(a) * CFG.bulletSpeed + sh.vx * 0.5,
+    dy: Math.sin(a) * CFG.bulletSpeed + sh.vy * 0.5,
+    life: CFG.bulletLife
+  });
+  S.shotCd = CFG.shotCooldown;
+}
+
+/* 게임 화면 안의 시작/다시 시작 버튼 */
+const BTN = { x: 270, y: 285, w: 200, h: 46 };
+const TVBTN = { x: monitor.x + 70, y: monitor.y + 170, w: 200, h: 44 };
+function hitRect(e, R) {
+  const r = canvas.getBoundingClientRect();
+  const mx = (e.clientX - r.left) * canvas.width / r.width;
+  const my = (e.clientY - r.top) * canvas.height / r.height;
+  return mx >= R.x && mx <= R.x + R.w && my >= R.y && my <= R.y + R.h;
+}
+const tvOverShown = () => S.running && S.stageOver && !S.wantHide && S.hide === 0;
+canvas.addEventListener('click', e => {
+  if (!S.running) { if (hitRect(e, BTN)) startGame(); }
+  else if (tvOverShown() && hitRect(e, TVBTN)) restartStage();
+});
+canvas.addEventListener('mousemove', e => {
+  const on = !S.running ? hitRect(e, BTN) : (tvOverShown() && hitRect(e, TVBTN));
+  canvas.style.cursor = on ? 'pointer' : 'default';
+});
+
+/* ============ 업데이트 ============ */
+function loop(now) {
+  const dt = Math.min((now - last) / 1000, 0.05);
+  last = now;
+  update(dt);
+  if (!S.running) return;
+  draw();
+  rafId = requestAnimationFrame(loop);
+}
+
+function update(dt) {
+  const k = dt * 60;
+
+  // 숨기 전환
+  const target = S.wantHide ? 1 : 0;
+  if (S.hide < target) S.hide = Math.min(target, S.hide + dt / CFG.hideTime);
+  else if (S.hide > target) S.hide = Math.max(target, S.hide - dt / CFG.hideTime);
+
+  // 엄마 상태 머신: away → warning(발소리) → here(창문) → away
+  const m = S.mom;
+  m.t -= dt;
+  if (m.t <= 0) {
+    if (m.state === 'away') { m.state = 'warning'; m.t = Math.max(0.9, CFG.warnTime - m.visits * 0.08); }
+    else if (m.state === 'warning') { m.state = 'here'; m.t = rand(...CFG.momStay); play('mom'); }
+    else { m.state = 'away'; m.t = Math.max(2.5, rand(...CFG.momAway) - m.visits * 0.2); m.visits++; }
+  }
+
+  // 발각 게이지: 줄어들지 않고 누적, 100%가 되면 즉시 게임 오버
+  if (m.state === 'here' && S.hide < 0.6) S.gauge += CFG.gaugeUp * dt;
+  S.note = Math.max(0, (S.note || 0) - dt);
+  if (S.gauge >= 100) return endGame('lose', '엄마에게 게임하는 모습을 들켜버렸습니다!');
+
+  S.shotCd = Math.max(0, S.shotCd - dt);
+  S.invul = Math.max(0, S.invul - dt);
+
+  if (S.wantHide || S.stageOver) return; // 숨어 있거나 TV 게임오버면 TV 게임 정지
+
+  const sh = S.ship;
+  if (keys.KeyA) sh.angle -= CFG.turn * k;
+  if (keys.KeyD) sh.angle += CFG.turn * k;
+  const acc = CFG.thrust * k;
+  if (keys.ArrowLeft) sh.vx -= acc;
+  if (keys.ArrowRight) sh.vx += acc;
+  if (keys.ArrowUp) sh.vy -= acc;
+  if (keys.ArrowDown) sh.vy += acc;
+  if (keys.KeyS && S.shotCd <= 0) fire();
+  const fr = Math.pow(CFG.friction, k);
+  sh.vx *= fr; sh.vy *= fr;
+  sh.x = (sh.x + sh.vx * k + monitor.w) % monitor.w;
+  sh.y = (sh.y + sh.vy * k + monitor.h) % monitor.h;
+
+  // 총알
+  for (let i = S.bullets.length - 1; i >= 0; i--) {
+    const b = S.bullets[i];
+    b.x += b.dx * k; b.y += b.dy * k; b.life -= dt;
+    if (b.life <= 0 || b.x < 0 || b.x > monitor.w || b.y < 0 || b.y > monitor.h) S.bullets.splice(i, 1);
+  }
+
+  // 운석 이동 + 벽 반사
+  for (const a of S.meteors) {
+    a.x += a.dx * k * CFG.meteorSpeed; a.y += a.dy * k * CFG.meteorSpeed; a.rot += a.vr * k;
+    if (a.x < a.r && a.dx < 0) a.dx = -a.dx;
+    if (a.x > monitor.w - a.r && a.dx > 0) a.dx = -a.dx;
+    if (a.y < a.r && a.dy < 0) a.dy = -a.dy;
+    if (a.y > monitor.h - a.r && a.dy > 0) a.dy = -a.dy;
+  }
+
+  // 총알 ↔ 운석
+  for (let i = S.bullets.length - 1; i >= 0; i--) {
+    const b = S.bullets[i];
+    const idx = S.meteors.findIndex(a => Math.hypot(a.x - b.x, a.y - b.y) < a.r);
+    if (idx < 0) continue;
+    const a = S.meteors[idx];
+    S.bullets.splice(i, 1);
+    S.meteors.splice(idx, 1);
+    S.score += a.r > 20 ? 50 : a.r > 10 ? 100 : 150;
+    if (a.r > 12) {
+      const sp = Math.hypot(a.dx, a.dy) * 1.3 + 0.2;
+      const base = Math.atan2(a.dy, a.dx);
+      for (const s of [-1, 1]) {
+        const ang = base + s * 0.9;
+        S.meteors.push({ x: a.x, y: a.y, r: a.r / 2, dx: Math.cos(ang) * sp, dy: Math.sin(ang) * sp, rot: 0, vr: s * 0.04 });
+      }
+    }
+  }
+
+  // 우주선 ↔ 운석
+  if (S.invul <= 0) {
+    for (const a of S.meteors) {
+      if (Math.hypot(a.x - sh.x, a.y - sh.y) < a.r + sh.r - 2) {
+        S.lives--;
+        if (S.lives <= 0) {
+          // 생명 0: TV 화면에 게임 오버가 뜨고, 화면 속 다시 시작을 눌러야 아스테로이드가 처음부터 시작
+          // (발각 게이지와 엄마 타이머는 계속 진행)
+          S.stageOver = true;
+          S.bullets = [];
+          return;
+        }
+        sh.x = monitor.w / 2; sh.y = monitor.h / 2; sh.vx = sh.vy = 0;
+        S.invul = CFG.invul;
+        S.note = 1.5; S.noteText = '운석에 부딪혔다! 생명 -1';
+        break;
+      }
+    }
+  }
+
+  if (S.meteors.length === 0) endGame('win', '모든 아스테로이드를 격파했습니다!');
+}
+
+/* ============ 렌더링 ============ */
+function drawImg(k, x, y, w, h) {
+  const i = getImg(k);
+  if (i) ctx.drawImage(i, x, y, w, h);
+  return !!i;
+}
+function drawImgRot(k, cx, cy, w, h, rot) {
+  const i = getImg(k);
+  if (!i) return false;
+  ctx.save(); ctx.translate(cx, cy); ctx.rotate(rot);
+  ctx.drawImage(i, -w / 2, -h / 2, w, h);
+  ctx.restore();
+  return true;
+}
+
+function draw() {
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+
+  // 방
+  if (!drawImg('room', 0, 0, W, H)) { ctx.fillStyle = '#f4efe6'; ctx.fillRect(0, 0, W, H); }
+
+  // 창문 + 엄마
+  if (!getImg('room')) {
+    ctx.fillStyle = '#d0c5b4'; ctx.fillRect(40, 40, 140, 190);
+    ctx.fillStyle = '#87ceeb'; ctx.fillRect(48, 48, 124, 174);
+  }
+  const mom = S.mom;
+  if (S.running && mom) {
+    if (mom.state === 'warning') {
+      if (!drawImg('momWarning', 48, 48, 124, 174)) {
+        ctx.fillStyle = 'rgba(60,40,40,0.55)';
+        ctx.beginPath(); ctx.arc(110, 140, 30, 0, 7); ctx.fill();
+      }
+    } else if (mom.state === 'here') {
+      if (!drawImg('momHere', 48, 48, 124, 174)) {
+        ctx.fillStyle = '#a83232';
+        ctx.beginPath(); ctx.arc(110, 130, 36, 0, 7); ctx.fill();
+        ctx.fillStyle = '#fff'; ctx.font = 'bold 12px sans-serif'; ctx.fillText('뭐 하니?!', 82, 80);
+      }
+    }
+  }
+
+  // 침대
+  if (!drawImg('bed', 40, 270, 220, 135)) {
+    ctx.fillStyle = '#e8ded2'; ctx.fillRect(40, 270, 220, 135);
+    ctx.fillStyle = '#fff'; ctx.fillRect(60, 290, 180, 100);
+  }
+  const h = S.hide || 0;
+  if (h > 0) {
+    ctx.globalAlpha = h;
+    if (!drawImg('bedHiding', 40, 270, 220, 135)) {
+      ctx.fillStyle = '#9db4c8'; ctx.fillRect(60, 300, 180, 90);
+      ctx.fillStyle = '#7a93a8'; ctx.beginPath(); ctx.ellipse(110, 320, 28, 18, 0, 0, 7); ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  // TV
+  if (!drawImg('tv', monitor.x - 10, monitor.y - 10, monitor.w + 20, monitor.h + 50)) {
+    ctx.fillStyle = '#3a2e26'; ctx.fillRect(monitor.x - 10, monitor.y - 10, monitor.w + 20, monitor.h + 50);
+  }
+  const playing = S.running && !S.wantHide && h === 0;
+  ctx.save();
+  ctx.beginPath(); ctx.rect(monitor.x, monitor.y, monitor.w, monitor.h); ctx.clip();
+  if (!playing && !(S.over && !S.wantHide)) {
+    if (!drawImg('tvOff', monitor.x, monitor.y, monitor.w, monitor.h)) {
+      ctx.fillStyle = '#1c2221'; ctx.fillRect(monitor.x, monitor.y, monitor.w, monitor.h);
+      ctx.fillStyle = '#777'; ctx.font = '13px sans-serif'; ctx.textAlign = 'center';
+      ctx.fillText(S.wantHide ? '[모니터 절전 중]' : '', monitor.x + monitor.w / 2, monitor.y + monitor.h / 2);
+      ctx.textAlign = 'left';
+    }
+  }
+  if (S.ship && (S.running || S.over) && !(S.wantHide && h >= 1)) drawGame();
+  if (S.running && S.stageOver && !S.wantHide) drawTvOver();
+  ctx.restore();
+
+  drawHud();
+  drawOverlay();
+}
+
+function drawGame() {
+  if (!drawImg('tvBg', monitor.x, monitor.y, monitor.w, monitor.h)) {
+    ctx.fillStyle = '#0f1412'; ctx.fillRect(monitor.x, monitor.y, monitor.w, monitor.h);
+  }
+  for (const a of S.meteors) {
+    const cx = monitor.x + a.x, cy = monitor.y + a.y;
+    if (!drawImgRot('meteor', cx, cy, a.r * 2, a.r * 2, a.rot)) {
+      ctx.fillStyle = '#d97757'; ctx.beginPath(); ctx.arc(cx, cy, a.r, 0, 7); ctx.fill();
+    }
+  }
+  for (const b of S.bullets) {
+    const cx = monitor.x + b.x, cy = monitor.y + b.y;
+    if (!drawImgRot('bullet', cx, cy, 14, 6, Math.atan2(b.dy, b.dx))) {
+      ctx.fillStyle = '#ffe600'; ctx.beginPath(); ctx.arc(cx, cy, 2.5, 0, 7); ctx.fill();
+    }
+  }
+  const sh = S.ship;
+  const blink = S.invul > 0 && Math.floor(S.invul * 10) % 2 === 0;
+  if (!blink) {
+    const cx = monitor.x + sh.x, cy = monitor.y + sh.y;
+    if (!drawImgRot('ship', cx, cy, 32, 32, sh.angle)) {
+      ctx.save(); ctx.translate(cx, cy); ctx.rotate(sh.angle);
+      ctx.fillStyle = '#78c2ad';
+      ctx.beginPath(); ctx.moveTo(14, 0); ctx.lineTo(-10, -8); ctx.lineTo(-10, 8); ctx.closePath(); ctx.fill();
+      ctx.restore();
+    }
+  }
+}
+
+function drawTvOver() {
+  const cx = monitor.x + monitor.w / 2, y = monitor.y;
+  ctx.fillStyle = 'rgba(0,0,0,0.75)'; ctx.fillRect(monitor.x, monitor.y, monitor.w, monitor.h);
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#e74c3c'; ctx.font = 'bold 24px sans-serif'; ctx.fillText('GAME OVER', cx, y + 100);
+  ctx.fillStyle = '#fff'; ctx.font = '13px sans-serif';
+  ctx.fillText('우주선이 모두 파괴되었습니다', cx, y + 130);
+  ctx.fillText('점수: ' + S.score + '점', cx, y + 152);
+  ctx.fillStyle = '#524234'; ctx.fillRect(TVBTN.x, TVBTN.y, TVBTN.w, TVBTN.h);
+  ctx.strokeStyle = '#a3917f'; ctx.lineWidth = 2; ctx.strokeRect(TVBTN.x, TVBTN.y, TVBTN.w, TVBTN.h);
+  ctx.fillStyle = '#fff'; ctx.font = 'bold 15px sans-serif';
+  ctx.fillText('다시 시작', cx, TVBTN.y + 28);
+  ctx.textAlign = 'left';
+}
+
+function drawHud() {
+  ctx.font = 'bold 14px sans-serif'; ctx.fillStyle = '#222';
+  ctx.fillText('점수: ' + (S.score || 0), 25, 28);
+  ctx.fillText('생명:', 130, 28);
+  for (let i = 0; i < (S.lives ?? 3); i++) {
+    if (!drawImg('heart', 172 + i * 22, 14, 18, 18)) { ctx.fillStyle = '#e74c3c'; ctx.fillRect(172 + i * 22, 16, 16, 16); }
+  }
+  ctx.fillStyle = '#222';
+  ctx.fillText('발각 위험:', 260, 28);
+  ctx.strokeStyle = '#333'; ctx.lineWidth = 1; ctx.strokeRect(340, 15, 120, 16);
+  const g = Math.min(100, S.gauge || 0);
+  ctx.fillStyle = g > 60 ? '#e74c3c' : '#f39c12';
+  ctx.fillRect(340, 15, g * 1.2, 16);
+
+  // 상황 메시지
+  let msg = '', col = '#555';
+  if (S.running) {
+    const st = S.mom.state;
+    if (S.note > 0) { msg = S.noteText; col = '#d9534f'; }
+    else if (st === 'warning') { msg = '쿵... 쿵... 복도에서 발소리가 들린다!'; col = '#d9534f'; }
+    else if (st === 'here') {
+      msg = S.wantHide ? '엄마가 아직 창문에 있다. 조금 더 숨어 있자.' : '엄마가 창문으로 보고 있다! Space로 숨어라!';
+      col = '#d9534f';
+    } else if (S.wantHide) { msg = '엄마가 간 것 같다. Space로 다시 게임하기'; col = '#2d7d46'; }
+    else if (S.stageOver) { msg = 'TV 화면의 다시 시작을 눌러야 아스테로이드가 처음부터 시작돼요'; col = '#555'; }
+  }
+  if (msg) { ctx.fillStyle = col; ctx.font = 'bold 15px sans-serif'; ctx.fillText(msg, 25, 425); }
+}
+
+function drawOverlay() {
+  const W = canvas.width;
+  let title = '', sub = '', col = '#fff', label = '다시 시작';
+  if (S.over === 'win') { title = '클리어!'; sub = S.reason; col = '#78c2ad'; }
+  else if (S.over === 'lose') { title = '게임 오버'; sub = S.reason; }
+  else if (!S.running) { title = '엄마 몰래 아스테로이드'; sub = '발소리가 들리면 스페이스바로 숨으세요'; label = '게임 시작'; }
+  else return;
+  ctx.fillStyle = 'rgba(0,0,0,0.75)'; ctx.fillRect(0, 0, W, canvas.height);
+  ctx.textAlign = 'center';
+  ctx.fillStyle = col; ctx.font = 'bold 26px sans-serif'; ctx.fillText(title, W / 2, 180);
+  ctx.fillStyle = '#fff'; ctx.font = '15px sans-serif';
+  if (sub) ctx.fillText(sub, W / 2, 216);
+  if (S.over) ctx.fillText('최종 점수: ' + S.score + '점', W / 2, 248);
+  ctx.fillStyle = '#524234'; ctx.fillRect(BTN.x, BTN.y, BTN.w, BTN.h);
+  ctx.strokeStyle = '#a3917f'; ctx.lineWidth = 2; ctx.strokeRect(BTN.x, BTN.y, BTN.w, BTN.h);
+  ctx.fillStyle = '#fff'; ctx.font = 'bold 17px sans-serif';
+  ctx.fillText(label, W / 2, BTN.y + 29);
+  ctx.textAlign = 'left';
+}
+
+draw();
+</script>
 </body>
 </html>
-
